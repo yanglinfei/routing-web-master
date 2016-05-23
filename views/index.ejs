@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %></title>
+  <link rel='stylesheet' href='/stylesheets/style.css'>
+  <link rel="stylesheet" href="/stylesheets/bootstrap.css">
+  <link rel="icon" href="images/logo.png">
+</head>
+<body>
+<div class="container">
+  <img src="images/odl.png" height="40px">
+</div>
+<div class="container">
+  <div class="page-header">
+    <h2>Routing Control</h2>
+  </div>
+  <div class="col-md-2">
+    <a class="list-group-item list-group-item-heading text-center">Host</a>
+  </div>
+  <div class="col-md-6">
+    <a class="list-group-item list-group-item-heading text-center">Switches</a>
+  </div>
+  <div class="col-md-2">
+    <a class="list-group-item list-group-item-heading text-center">Host</a>
+  </div>
+  <div class="col-md-2">
+    <a class="list-group-item list-group-item-heading text-center">Button</a>
+  </div>
+  <div class="col-md-2">
+    <div class="list-group" id="srcNode">
+      <a class="list-group-item list-group-item-danger text-center">H1 10.0.0.1</a>
+      <a class="list-group-item list-group-item-danger text-center">H1 10.0.0.1</a>
+      <a class="list-group-item list-group-item-danger text-center">H2 10.0.0.2</a>
+      <a class="list-group-item list-group-item-danger text-center">H2 10.0.0.2</a>
+    </div>
+  </div>
+  <div class="col-md-2">
+    <div class="list-group">
+      <a class="list-group-item list-group-item-info text-center">s1</a>
+      <a class="list-group-item list-group-item-info text-center">s1</a>
+      <a class="list-group-item list-group-item-info text-center">s1</a>
+      <a class="list-group-item list-group-item-info text-center">s1</a>
+    </div>
+  </div>
+  <div class="col-md-2">
+    <div class="list-group">
+      <div class="list-group-item list-group-item-info">
+        <select name="switch" style="width: 100%" id="s0">
+          <option value="openflow:2">S2</option>
+          <option value="openflow:3">S3</option>
+        </select>
+      </div>
+      <div class="list-group-item list-group-item-info">
+        <select name="switch" style="width: 100%" id="s1">
+          <option value="openflow:2">S2</option>
+          <option value="openflow:3">S3</option>
+        </select>
+      </div>
+      <div class="list-group-item list-group-item-info">
+        <select name="switch" style="width: 100%" id="s2">
+          <option value="openflow:2">S2</option>
+          <option value="openflow:3">S3</option>
+        </select>
+      </div>
+      <div class="list-group-item list-group-item-info">
+        <select name="switch" style="width: 100%" id="s3">
+          <option value="openflow:2">S2</option>
+          <option value="openflow:3">S3</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2">
+    <div class="list-group">
+      <a class="list-group-item list-group-item-info text-center">s4</a>
+      <a class="list-group-item list-group-item-info text-center">s4</a>
+      <a class="list-group-item list-group-item-info text-center">s4</a>
+      <a class="list-group-item list-group-item-info text-center">s4</a>
+    </div>
+  </div>
+  <div class="col-md-2">
+    <div class="list-group" id="dstNode">
+      <a class="list-group-item list-group-item-danger text-center">D1 10.0.0.3</a>
+      <a class="list-group-item list-group-item-danger text-center">D2 10.0.0.4</a>
+      <a class="list-group-item list-group-item-danger text-center">D1 10.0.0.3</a>
+      <a class="list-group-item list-group-item-danger text-center">D2 10.0.0.4</a>
+    </div>
+  </div>
+  <div class="col-md-2">
+    <div class="list-group">
+      <a class="list-group-item list-group-item-success text-center btn" onclick="onClickButton(0)">SET</a>
+      <a class="list-group-item list-group-item-success text-center btn" onclick="onClickButton(1)">SET</a>
+      <a class="list-group-item list-group-item-success text-center btn" onclick="onClickButton(2)">SET</a>
+      <a class="list-group-item list-group-item-success text-center btn" onclick="onClickButton(3)">SET</a>
+    </div>
+  </div>
+  <a id="test"></a>
+</div>
+<div class="container" >
+  <hr class="list-inline">
+  <form class="form-inline">
+    <div class="form-group">
+      <label for="srcip">srcIP:</label>
+      <input type="text" class="form-control" id="srcip">
+      <label for="dstip">dstIP:</label>
+      <input type="text" class="form-control" id="dstip">
+    </div>
+    <button type="button" class="btn btn-danger" onclick="chackRouting()">Chack Routing</button>
+  </form>
+
+</div>
+<div class="container" id="chackResult">
+
+</div>
+<script src="/javascripts/bootstrap.js"></script>
+<script src="/javascripts/jquery.js"></script>
+<script>
+  function onClickButton(button){
+    var s = $('#s'+button).val();
+    $.post('/set',{'id':button,'switch':s},function (result) {
+    })
+  }
+
+  function chackRouting(){
+    var srcIP = $("#srcip")[0].value;
+    var dstIP = $("#dstip")[0].value;
+
+    var srcNode = $("#srcNode").children();
+    var dstNode = $('#dstNode').children();
+
+    var flag = 1 ;
+    for(var i=0;i<4;i++){
+      if(srcNode[i].text.indexOf(srcIP)!=-1 && dstNode[i].text.indexOf(dstIP)!=-1){
+        flag = 0;
+        $('#chackResult').html("<br><br>");
+        $('#chackResult').append('<div class="col-md-2">'+
+                                    '<a class="btn btn-success">' + srcNode[i].text + '</a>' +
+                                  '</div>');
+        $('#chackResult').append('<div class="col-md-2">'+
+                                    '<a class="btn btn-info">s1</a>' +
+                                  '</div>');
+        $('#chackResult').append('<div class="col-md-2">'+
+                                    '<a class="btn btn-warning">' + $('#s'+i).find("option:selected").text() + '</a>' +
+                                  '</div>');
+        $('#chackResult').append('<div class="col-md-2">'+
+                                    '<a class="btn btn-danger">s4</a>' +
+                                  '</div>');
+        $('#chackResult').append('<div class="col-md-2">'+
+                                    '<a class="btn btn-success">' + dstNode[i].text + '</a>' +
+                                  '</div>');
+        break;
+      }
+    }
+    if(flag==1){
+      alert("Illegal Input,please try again!");
+    }
+  }
+</script>
+</body>
+
+</html>

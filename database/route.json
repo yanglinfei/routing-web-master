@@ -1,0 +1,38 @@
+[
+  {
+    "srcIP": "10.0.0.1",
+    "dstIP": "10.0.0.3",
+    "switches": [
+      "openflow:1",
+      "openflow:2",
+      "openflow:4"
+    ]
+  },
+  {
+    "srcIP": "10.0.0.1",
+    "dstIP": "10.0.0.4",
+    "switches": [
+      "openflow:1",
+      "openflow:2",
+      "openflow:4"
+    ]
+  },
+  {
+    "srcIP": "10.0.0.2",
+    "dstIP": "10.0.0.3",
+    "switches": [
+      "openflow:1",
+      "openflow:2",
+      "openflow:4"
+    ]
+  },
+  {
+    "srcIP": "10.0.0.2",
+    "dstIP": "10.0.0.4",
+    "switches": [
+      "openflow:1",
+      "openflow:2",
+      "openflow:4"
+    ]
+  }
+]
