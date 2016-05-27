@@ -131,31 +131,28 @@
     var dstNode = $('#dstNode').children();
 
     var flag = 1 ;
-    for(var i=0;i<4;i++){
-      if(srcNode[i].text.indexOf(srcIP)!=-1 && dstNode[i].text.indexOf(dstIP)!=-1){
-        flag = 0;
+
+    $.get('/route',{'srcIP':srcIP,'dstIP':dstIP},function (result) {
+      if(result!="error")
+      {
         $('#chackResult').html("<br><br>");
         $('#chackResult').append('<div class="col-md-2">'+
-                                    '<a class="btn btn-success">' + srcNode[i].text + '</a>' +
+                                    '<a class="btn btn-success">' + srcIP + '</a>' +
                                   '</div>');
         $('#chackResult').append('<div class="col-md-2">'+
                                     '<a class="btn btn-info">s1</a>' +
                                   '</div>');
         $('#chackResult').append('<div class="col-md-2">'+
-                                    '<a class="btn btn-warning">' + $('#s'+i).find("option:selected").text() + '</a>' +
+                                    '<a class="btn btn-warning">' + result + '</a>' +
                                   '</div>');
         $('#chackResult').append('<div class="col-md-2">'+
                                     '<a class="btn btn-danger">s4</a>' +
                                   '</div>');
         $('#chackResult').append('<div class="col-md-2">'+
-                                    '<a class="btn btn-success">' + dstNode[i].text + '</a>' +
+                                    '<a class="btn btn-success">' + dstIP + '</a>' +
                                   '</div>');
-        break;
       }
-    }
-    if(flag==1){
-      alert("Illegal Input,please try again!");
-    }
+    })
   }
 </script>
 </body>

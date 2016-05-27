@@ -13,7 +13,7 @@
     "dstIP": "10.0.0.4",
     "switches": [
       "openflow:1",
-      "openflow:2",
+      "openflow:3",
       "openflow:4"
     ]
   },
@@ -22,7 +22,7 @@
     "dstIP": "10.0.0.3",
     "switches": [
       "openflow:1",
-      "openflow:2",
+      "openflow:3",
       "openflow:4"
     ]
   },
@@ -31,7 +31,7 @@
     "dstIP": "10.0.0.4",
     "switches": [
       "openflow:1",
-      "openflow:2",
+      "openflow:3",
       "openflow:4"
     ]
   }
